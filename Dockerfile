@@ -38,11 +38,11 @@ COPY . .
 RUN composer install --no-dev --optimize-autoloader
 
 # =========================
-# .env（Render対策）
+# .env生成（Render対策）
 # =========================
 RUN cp .env.example .env || true
 
-# ★重要：Render事故防止
+# ★Render安定設定
 RUN echo "SESSION_DRIVER=cookie" >> .env
 RUN echo "CACHE_STORE=array" >> .env
 RUN echo "QUEUE_CONNECTION=sync" >> .env
@@ -59,6 +59,11 @@ RUN touch database/database.sqlite
 RUN php artisan key:generate || true
 RUN php artisan config:clear || true
 RUN php artisan cache:clear || true
+
+# =========================
+# ★ここが重要：全部のテーブル作る
+# =========================
+RUN php artisan migrate:fresh --force || true
 
 # =========================
 # 権限
