@@ -36,7 +36,6 @@ RUN php artisan key:generate || true
 
 # キャッシュクリア（安全）
 RUN php artisan config:clear || true
-RUN php artisan cache:clear || true
 
 # 権限
 RUN chmod -R 777 storage bootstrap/cache database
